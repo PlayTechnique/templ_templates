@@ -1,0 +1,24 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    env:
+      DOCKERIMAGE: {{ .IMAGE_REPO } }/{{ .IMAGE }}:${{ github.run_attempt }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PAT }}
+      - name: Build and Publish the Docker image
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: ${{ env.DOCKERIMAGE }}
