@@ -1,0 +1,17 @@
+apiVersion: skaffold/v4beta4
+kind: Config
+metadata:
+  name: {{ .NAME }}
+profiles:
+  - name: local
+    deploy:
+      helm:
+        releases:
+          - name: {{ .NAME }}
+            chartPath: {{ .CHART_PATH }}
+            namespace: {{ .NAMESPACE }}
+            setValues:
+
+            createNamespace: true
+    activation:
+      - kubeContext:
