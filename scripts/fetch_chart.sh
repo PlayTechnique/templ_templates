@@ -16,7 +16,8 @@ function help() {
 }
 
 WRITE_SKAFFOLD="false"
-UNTAR_DIR="${SERVICE_NAME}-${CHART_VERSION}"
+UNTAR_DESTINATION="${SERVICE_NAME}-${CHART_VERSION}"
+
 
 for arg in "$@"; do
   case $arg in
@@ -36,7 +37,7 @@ profiles:
       helm:
         releases:
           - name: ${SERVICE_NAME}
-            chartPath: helm-charts/${UNTAR_DIR}
+            chartPath: helm-charts/${UNTAR_DESTINATION}/${SERVICE_NAME}
             namespace: ${SERVICE_NAME}
             setValues:
 
@@ -52,10 +53,10 @@ cd "${THIS_SCRIPT_DIR}/../${SERVICE_NAME}"
 helm repo add ${SERVICE_NAME} ${CHART_URL}
 helm repo update
 
-if [[ -d "${UNTAR_DIR}" ]]; then
-  echo "${UNTAR_DIR} exists. No need to pull chart"
+if [[ -d "${UNTAR_DESTINATION}" ]]; then
+  echo "${UNTAR_DESTINATION} exists. No need to pull chart"
 else
-  helm pull ${SERVICE_NAME}/${SERVICE_NAME} --untar --untardir ${UNTAR_DIR} --version "${CHART_VERSION}"
+  helm pull ${SERVICE_NAME}/${SERVICE_NAME} --untar --untardir ${UNTAR_DESTINATION} --version "${CHART_VERSION}"
 fi
 
 if [[ ${WRITE_SKAFFOLD} = "true" ]]; then
