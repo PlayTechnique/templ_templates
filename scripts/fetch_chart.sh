@@ -15,7 +15,8 @@ function help() {
   exit 0
 }
 
-SKAFFOLD="false"
+WRITE_SKAFFOLD="false"
+UNTAR_DIR="${SERVICE_NAME}-${CHART_VERSION}"
 
 for arg in "$@"; do
   case $arg in
@@ -24,7 +25,7 @@ for arg in "$@"; do
   esac
 done
 
-SKAFFOLD=<<EOS
+SKAFFOLD=$(cat <<EOS
 apiVersion: skaffold/v4beta4
 kind: Config
 metadata:
@@ -35,7 +36,7 @@ profiles:
       helm:
         releases:
           - name: ${SERVICE_NAME}
-            chartPath: helm-charts/${SERVICE_NAME}-${CHART_VERSION}
+            chartPath: helm-charts/${UNTAR_DIR}
             namespace: ${SERVICE_NAME}
             setValues:
 
@@ -43,13 +44,19 @@ profiles:
     activation:
       - kubeContext:
 EOS
+)
 
 mkdir "${THIS_SCRIPT_DIR}/../${SERVICE_NAME}" || true
 cd "${THIS_SCRIPT_DIR}/../${SERVICE_NAME}"
 
 helm repo add ${SERVICE_NAME} ${CHART_URL}
 helm repo update
-helm pull ${SERVICE_NAME}/${SERVICE_NAME} --untar --untardir ${SERVICE_NAME}-${CHART_VERSION} --version "${CHART_VERSION}"
+
+if [[ -d "${UNTAR_DIR}" ]]; then
+  echo "${UNTAR_DIR} exists. No need to pull chart"
+else
+  helm pull ${SERVICE_NAME}/${SERVICE_NAME} --untar --untardir ${UNTAR_DIR} --version "${CHART_VERSION}"
+fi
 
 if [[ ${WRITE_SKAFFOLD} = "true" ]]; then
   if [[ ! -f skaffold.yaml ]]; then
