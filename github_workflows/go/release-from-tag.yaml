@@ -11,7 +11,7 @@ jobs:
       - name: "checkout"
         uses: actions/checkout@v3
         with:
-          ref: ${{ env.GITHUB_REF }}
+          ref: {{ printf "${{%s}}" "env.GITHUB_REF" }}
 
       - name: 'Get Previous tag'
         id: previoustag
@@ -22,52 +22,52 @@ jobs:
       - name: "checkout"
         uses: actions/checkout@v3
         with:
-          ref: ${{ steps.previoustag.outputs.tag }}
+          ref: {{ printf "${{%s}}" "steps.previoustag.outputs.tag" }}
 
       - name: "compile binary"
         run: |
-          GOOS=linux go build -o {{ .Output-Binary }}-linux
-          GOOS=darwin GOARCH=amd-64 go build -o {{ .Output-Binary }}-mac-amd64
-          GOOS=darwin GOARCH=arm-64 go build -o {{ .Output-Binary }}-mac-arm64
+          GOOS=linux go build o {{ .OutputBinary }}-linux
+          GOOS=darwin GOARCH=amd-64 go build -o {{ .OutputBinary }}-mac-amd64
+          GOOS=darwin GOARCH=arm-64 go build -o {{ .OutputBinary }}-mac-arm64
 
       - name: Release
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: {{ printf "${{%s}}" "secrets.GITHUB_TOKEN" }}
         with:
-          tag_name: ${{ steps.previoustag.outputs.tag }}
-          release_name: Release ${{ steps.previoustag.outputs.tag }}
+          tag_name: {{ printf "${{%s}}" "steps.previoustag.outputs.tag" }}
+          release_name: Release {{ printf "${{%s}}" "steps.previoustag.outputs.tag" }}
 
       - name: Upload linux
         id: upload-linux-asset
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: {{ printf "${{%s}}" "secrets.GITHUB_TOKEN" }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./{{ .Output-Binary }}-linux
-          asset_name: {{ .Output-Binary }}-linux
+          upload_url: {{ printf "${{%s}}" "steps.create_release.outputs.upload_url" }}
+          asset_path: ./{{ .OutputBinary }}-linux
+          asset_name: {{ .OutputBinary }}-linux
           asset_content_type: binary
 
       - name: Upload macos
         id: upload-macos-asset-amd64
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: {{ printf "${{%s}}" "secrets.GITHUB_TOKEN" }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./{{ .Output-Binary }}-mac-amd64
-          asset_name: {{ .Output-Binary }}-mac-amd64
+          upload_url: {{ printf "${{%s}}" "steps.create_release.outputs.upload_url" }}
+          asset_path: ./{{ .OutputBinary }}-mac-amd64
+          asset_name: {{ .OutputBinary }}-mac-amd64
           asset_content_type: binary
 
       - name: Upload macos
         id: upload-macos-asset-arm64
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: {{ printf "${{%s}}" "secrets.GITHUB_TOKEN" }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./{{ .Output-Binary }}-mac-arm64
-          asset_name: {{ .Output-Binary }}-mac-arm64
+          upload_url: {{ printf "${{%s}}" "steps.create_release.outputs.upload_url" }}
+          asset_path: ./{{ .OutputBinary }}-mac-arm64
+          asset_name: {{ .OutputBinary }}-mac-arm64
           asset_content_type: binary
