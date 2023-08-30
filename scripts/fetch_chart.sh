@@ -22,7 +22,7 @@ UNTAR_DESTINATION="${CHART_NAME}-${CHART_VERSION}"
 
 for arg in "$@"; do
   case $arg in
-    "--skaffold" | "-s") SKAFFOLD="true"; shift;;
+    "--skaffold" | "-s") WRITE_SKAFFOLD="true"; shift;;
     "--help" | "-h" ) help; shift;;
   esac
 done
