@@ -62,7 +62,7 @@ fi
 
 if [[ ${WRITE_SKAFFOLD} = "true" ]]; then
   if [[ ! -f skaffold.yaml ]]; then
-    echo ${SKAFFOLD} >> skaffold.yaml
+    echo "${SKAFFOLD}" >> skaffold.yaml
   else
     echo "skaffold.yaml already exists. Cowardly refusing to write skaffold file."
     exit 1
