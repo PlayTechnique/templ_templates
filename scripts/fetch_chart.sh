@@ -2,12 +2,13 @@
 
 THIS_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 CHART_URL=
-SERVICE_NAME=
+REPO_NAME=
+CHART_NAME=
 CHART_VERSION=
 
 function help() {
   echo "${0} --skaffold"
-  echo "This script pulls down the ${SERVICE_NAME} helm chart."
+  echo "This script pulls down the ${REPO_NAME}/${CHART_NAME} helm chart."
 
   echo "Options:"
   echo "--skaffold [-s] - also write a template skaffold.yaml"
@@ -16,7 +17,7 @@ function help() {
 }
 
 WRITE_SKAFFOLD="false"
-UNTAR_DESTINATION="${SERVICE_NAME}-${CHART_VERSION}"
+UNTAR_DESTINATION="${CHART_NAME}-${CHART_VERSION}"
 
 
 for arg in "$@"; do
@@ -30,15 +31,15 @@ SKAFFOLD=$(cat <<EOS
 apiVersion: skaffold/v4beta4
 kind: Config
 metadata:
-  name: ${SERVICE_NAME}
+  name: ${REPO_NAME}
 profiles:
   - name: 
     deploy:
       helm:
         releases:
-          - name: ${SERVICE_NAME}
-            chartPath: helm-charts/${UNTAR_DESTINATION}/${SERVICE_NAME}
-            namespace: ${SERVICE_NAME}
+          - name: ${REPO_NAME}
+            chartPath: helm-charts/${UNTAR_DESTINATION}/${CHART_NAME}
+            namespace: ${REPO_NAME}
             setValues:
 
             createNamespace: true
@@ -50,13 +51,13 @@ EOS
 mkdir "${THIS_SCRIPT_DIR}/../${SERVICE_NAME}" || true
 cd "${THIS_SCRIPT_DIR}/../${SERVICE_NAME}"
 
-helm repo add ${SERVICE_NAME} ${CHART_URL}
+helm repo add ${REPO_NAME} ${CHART_URL}
 helm repo update
 
 if [[ -d "${UNTAR_DESTINATION}" ]]; then
   echo "${UNTAR_DESTINATION} exists. No need to pull chart"
 else
-  helm pull ${SERVICE_NAME}/${SERVICE_NAME} --untar --untardir ${UNTAR_DESTINATION} --version "${CHART_VERSION}"
+  helm pull ${SERVICE_NAME}/${CHART_NAME} --untar --untardir ${UNTAR_DESTINATION} --version "${CHART_VERSION}"
 fi
 
 if [[ ${WRITE_SKAFFOLD} = "true" ]]; then
