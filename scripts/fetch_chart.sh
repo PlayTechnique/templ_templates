@@ -48,8 +48,8 @@ profiles:
 EOS
 )
 
-mkdir "${THIS_SCRIPT_DIR}/../${SERVICE_NAME}" || true
-cd "${THIS_SCRIPT_DIR}/../${SERVICE_NAME}"
+mkdir "${THIS_SCRIPT_DIR}/../${CHART_NAME}" || true
+cd "${THIS_SCRIPT_DIR}/../${CHART_NAME}"
 
 helm repo add ${REPO_NAME} ${CHART_URL}
 helm repo update
@@ -57,7 +57,7 @@ helm repo update
 if [[ -d "${UNTAR_DESTINATION}" ]]; then
   echo "${UNTAR_DESTINATION} exists. No need to pull chart"
 else
-  helm pull ${SERVICE_NAME}/${CHART_NAME} --untar --untardir ${UNTAR_DESTINATION} --version "${CHART_VERSION}"
+  helm pull ${REPO_NAME}/${CHART_NAME} --untar --untardir ${UNTAR_DESTINATION} --version "${CHART_VERSION}"
 fi
 
 if [[ ${WRITE_SKAFFOLD} = "true" ]]; then
