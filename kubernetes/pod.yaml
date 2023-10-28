@@ -1,0 +1,14 @@
+#https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#pod-v1-core
+#https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#podspec-v1-core
+apiVersion: v1
+kind: Pod
+metadata:
+    name: {{ .NAME }}
+spec:
+    containers:
+        -   name: {{ .NAME }}
+            image:
+    #          ports:
+    #              - containerPort: 80
+    #         command: []
+    restartPolicy: OnFailure
