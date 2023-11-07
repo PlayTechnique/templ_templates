@@ -48,8 +48,8 @@ profiles:
 EOS
 )
 
-mkdir "${THIS_SCRIPT_DIR}/../${CHART_NAME}" || true
-cd "${THIS_SCRIPT_DIR}/../${CHART_NAME}"
+mkdir "${THIS_SCRIPT_DIR}/../helm-charts" || true
+cd "${THIS_SCRIPT_DIR}/../helm-charts"
 
 helm repo add ${REPO_NAME} ${CHART_URL}
 helm repo update
