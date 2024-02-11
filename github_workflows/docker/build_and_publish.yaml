@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     env:
-      DOCKERIMAGE: {{ .IMAGE_REPO } }/{{ .IMAGE }}:${{ github.run_attempt }}
+      DOCKERIMAGE: {{ .DockerHubImageNamespace }}/{{ .Image }}:${{ github.run_attempt }}
     runs-on: ubuntu-latest
 
     steps:
@@ -17,6 +17,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PAT }}
+
       - name: Build and Publish the Docker image
         uses: docker/build-push-action@v3
         with:
