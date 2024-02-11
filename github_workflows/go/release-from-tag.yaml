@@ -7,6 +7,7 @@ on:
 jobs:
   build-and-release-tag:
     runs-on: ubuntu-22.04
+    #if: ${{ contains('{{ .PRIMARYREPO }}/{{ REPONAME }}', github.repository ) }}
     steps:
       - name: "checkout"
         uses: actions/checkout@v3
