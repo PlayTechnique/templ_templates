@@ -1,0 +1,49 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(go build*)",
+      "Bash(go run*)",
+      "Bash(go test*)",
+      "Bash(go mod*)",
+      "Bash(go get*)",
+      "Bash(go fmt*)",
+      "Bash(go vet*)",
+      "Bash(go install*)",
+      "Bash(go generate*)",
+      "Bash(go clean*)",
+      "Bash(go list*)",
+      "Bash(go env*)",
+      "Bash(go version*)",
+      "Bash(go work*)",
+      "Bash(gofmt*)",
+      "Bash(golangci-lint*)",
+      "Bash(staticcheck*)",
+
+      "Bash(cat*)",
+      "Bash(ls*)",
+      "Bash(find*)",
+      "Bash(grep*)",
+      "Bash(head*)",
+      "Bash(tail*)",
+      "Bash(wc*)",
+      "Bash(tree*)",
+      "Bash(file*)",
+      "Bash(which*)",
+      "Bash(pwd)",
+      "Bash(echo*)",
+
+      "Bash(mkdir*)",
+      "Bash(touch*)",
+      "Bash(cp*)",
+      "Bash(mv*)",
+
+      "Bash(curl*)",
+      "Bash(git status*)",
+      "Bash(git log*)",
+      "Bash(git diff*)",
+      "Bash(git branch*)",
+      "Bash(git show*)"
+    ],
+    "deny": []
+  }
+}
