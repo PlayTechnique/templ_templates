@@ -20,3 +20,6 @@ When modifying interfaces (e.g., `Prompter` in `cmd/prompter.go`):
 1. **Update all mock implementations** — search for structs implementing the interface and add the new method
 2. **Check test files** — mocks often live in `*_test.go` files (e.g., `mockPrompter` in `select_test.go`, `mockPrompterInCreate` in `create_test.go`)
 3. **Use compile-time checks** — ensure `var _ Interface = (*mockType)(nil)` assertions exist to catch missing methods
+
+## Logging Practices
+Supply debug logging in each function, with special attention to log messages around tricky bits or external interactions.
