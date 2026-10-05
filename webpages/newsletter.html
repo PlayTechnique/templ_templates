@@ -1,6 +1,6 @@
-{{"{{"}} .AndrewPartialFile.head title="{{ .TITLE }}" andrewpublishtime="{{ .DATE }}" }}
+{{"{{"}} .AndrewPartialFile.head title="{{ .TITLE }}" andrewpublishtime="{{ .DATE }}" description=""}}
 <body>
-    {{ .AndrewPartialFile.navigation }}
+  {{ .AndrewPartialFile.navigation }}
   <main>
     <aside>{{"{{"}} .AndrewPartialFile.newsletter }}</aside>
     <article>
@@ -9,7 +9,7 @@
         Hey there -
       </p>
       <p>
-        This month we'll focus on <a href="https://link/to/paper">Paper Title</a> by Author. If anything in this paper stands out to you, hit reply to this email and let me know!
+        This month we'll focus on <a href="https://link/to/paper">Paper Title</a> by Author. If anything in this paper stands out to you, email me at newsletter@playtechnique.io and let me know!
       </p>
 
       <p>
@@ -18,13 +18,14 @@
       </p>
       {{ .BODY }}
 
-            <p>
-        - Gwendolyn James
-      </p>  
-      <p>
-        P.S. Thanks for your attention today. Please do forward this on to other people you know who love this kind of geek-history. These letters are here to help encourage, inform, and inspire, and I'd love to see the list continue to grow.
-      </p>
-      </section>
+      <footer>
+        <p>
+          - Gwendolyn James
+        </p>
+        <p>
+          P.S. Thanks for your attention today. Please do forward this on to other people you know who love this kind of geek-history. These letters are here to help encourage, inform, and inspire, and I'd love to see the list continue to grow.
+        </p>
+      </footer>
     </article>
 
     <aside>
